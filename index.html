@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="keywords" content="helios, heliosgaming, aiismuis, helio ">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aiismuis</title>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="shourtcut icon" href="logo-sekil.ico" spellcheck="true">   
+      </head>
+<body>
+ 
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,500;0,600;1,400;1,600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url("https://www.dropbox.com/s/7x5jj13azoiyxda/171144-graficeskij_dizajn-krasochnost-svet-chernyy-osveshhenie-1080x1920.jpg?dl=1");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.player {
+  width: 90%;
+  max-width: 300px;
+  height: 430px;
+  overflow: hidden;
+  border-radius: 30px;
+  padding: 20px;
+  box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.05);
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8.5px);
+  -webkit-backdrop-filter: blur(8.5px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.header {
+  text-align: center;
+  margin: 0px auto;
+  padding: 5px;
+  border-bottom: 1px solid #f5f5f5;
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.header span {
+  color: #ff0000;
+}
+
+.img {
+  width: 160px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+  border-radius: 50%;
+  background: linear-gradient(120deg, #ff0000 , #1100f8);
+  overflow: hidden;
+  margin-top: 15px;
+}
+
+.img img {
+  width: 150px;
+  height: 150px;
+  display: block;
+  margin: 20px auto;
+  border-radius: 50%;
+  object-fit: cover;
+  z-index: 9999;
+}
+
+.img img.play {
+  animation: 15s rotate linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.details {
+  text-align: center;
+}
+
+.details p {
+  color: #ffffff;
+  font-size: 15px;
+  margin-top: 5px;
+}
+
+.action {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action button {
+  background: #fff;
+  box-shadow: 5px 5px 10px 5px rgba(255, 255, 255, 0.028);
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 28px;
+  width: 48px;
+  height: 48px;
+  border: none;
+  outline: none;
+  margin: 8px;
+  border: 2px solid #f8f8f8;
+  cursor: pointer;
+  color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.action button.play {
+  background: linear-gradient(135deg, #0f00da, #ff0000);
+  color: #000000;
+}
+
+.time {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto 10px auto;
+  width: 90%;
+  color: #979797;
+}
+
+#progress {
+  margin: 0px auto;
+  display: block;
+  width: 100%;
+  height: 5px;
+  background: #f7f7f7;
+}
+
+#progress::-webkit-slider-thumb {
+  background: red;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #ffa17f, #ff688f);
+  transition: 0.2s ease-in-out;
+}
+
+</style>
+<div class="player">
+
+  <div class="header">
+    Ais <span>Music</span>
+  </div>
+
+  <div class="img">
+    <img src="" id="thumb">
+  </div>
+  <div class="details" style="color: #ff4444;">
+    <h3 id="title"></h3>
+    <p id="musician"></p>
+  </div>
+  <audio id="song">
+    <source src="/ais/" type="audio/mp3">
+    </source>
+  </audio>
+  <div class="time">
+    <span id="start">0:00</span>
+    <span id="end">0:00</span>
+  </div>
+  <input type="range" id="progress" name="volume" 
+         min="0" max="100">
+
+  <div class="action">
+
+    <button onclick="prevPlay()">
+      <i class="bx bx-skip-previous" style="color: black"></i>
+    </button>
+
+    <button onclick="playPause()" class="play" id="play">
+      <i class="bx bx-play" style="color: black;" ></i>
+    </button>
+
+    <button onclick="nextPlay()">
+      <i class="bx bx-skip-next" style="color: black;"></i>
+    </button>
+
+    <button onclick="download()">
+      <i class="bx bx-download" style="color: black;"></i>
+    </button>
+    
+
+  </div>
+
+  <script>
+    const songs = [
+
+{
+  name: "Bağlı",
+  link: "https://www.dropbox.com/s/i39vyxy4ctzf9w3/AIS%20-%20ba%C4%9Fl%C4%B1.mp3?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/ib22fouljxkp30x/images%20%282%29.jfif?dl=1"
+  
+
+},
+{
+  name: "Boz dünya",
+  link: "https://www.dropbox.com/s/djhpt4k5a7ijo4m/AIS%20-%20Boz%20d%C3%BCnya.mp3?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/r5gmzhcw8sftdfn/images%20%281%29.jfif?dl=1"
+},
+{
+  name: "Bu həyatı yaşamaq  var",
+  link: "https://www.dropbox.com/s/7tvntmj636ij3ry/AIS%20-%20Bu%20h%C9%99yat%C4%B1%20ya%C5%9Famaq%20var.mp3?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/r5gmzhcw8sftdfn/images%20%281%29.jfif?dl=1"
+},
+{
+  name: "Ero",
+  link: "https://www.dropbox.com/s/0kev3jgkzdt213s/AIS%20-%20Ero%20%28cover%29.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/ib22fouljxkp30x/images%20%282%29.jfif?dl=1"
+},
+{
+  name: "Əsirgəmədim",
+  link: "https://www.dropbox.com/s/9lxaq2ln3yhs0mw/Ais%20-%20%C9%99sirg%C9%99m%C9%99dim%20%28akustik%29.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/ib22fouljxkp30x/images%20%282%29.jfif?dl=1"
+},
+{
+  name: "Gecə-gecə",
+  link: "https://www.dropbox.com/s/b5rjozmmav5cg0z/AIS%20-%20Gec%C9%99%20gec%C9%99%20%28cover%29.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/vrnm8sgstzlrvls/images.jfif?dl=1"
+},
+{
+  name: "Bilmədən oldu",
+  link: "https://www.dropbox.com/s/u6ew2gybpqsqsc2/AIS%20-%20Bilm%C9%99d%C9%99n%20oldu%20%28cover%29.mp3?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/vrnm8sgstzlrvls/images.jfif?dl=1"
+},
+{
+  name: "Məktub",
+  link: "https://www.dropbox.com/s/jiu0so1mrikomy2/Ais%20-%20M%C9%99ktub%20%28cover%29.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/gkrk0geydc6owf8/images%20%283%29.jfif?dl=1"
+},
+{
+  name: "Qəlbimin istəyi",
+  link: "https://www.dropbox.com/s/fn8qeplwo49diiy/Ais%20-%20q%C9%99lbimin%20ist%C9%99yi.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/gkrk0geydc6owf8/images%20%283%29.jfif?dl=1"
+},
+{
+  name: "Qruz",
+  link: "https://www.dropbox.com/s/orm8fcjsash3vdb/Ais%20-%20Qruz%20%28cover%29.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/vrnm8sgstzlrvls/images.jfif?dl=1"
+},
+{
+  name: "Son seslenişim",
+  link: "https://www.dropbox.com/s/ll6ulv8qhvt7acu/Ais%20-%20Son%20sesleni%C5%9Fim.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/gkrk0geydc6owf8/images%20%283%29.jfif?dl=1"
+},
+{
+  name: "Ulduz",
+  link: "https://www.dropbox.com/s/v9y9ssjv7iqy5he/AIS%20-%20Ulduz.mp3?dl=1",
+  artists: "Ais",
+  image: ""
+},
+{
+  name: "Xatirə",
+  link: "https://www.dropbox.com/s/poqc6aie9y4944g/Ais%20-%20xatir%C9%99.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/vrnm8sgstzlrvls/images.jfif?dl=1"
+},
+{
+  name: "Nə fayda",
+  link: "https://www.dropbox.com/s/0p8suvgorp35byy/Ais-%20N%C9%99%20fayda%20%28Nj%29.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/r5gmzhcw8sftdfn/images%20%281%29.jfif?dl=1"
+},
+{
+  name: "Səndən bir müddət ayrı qalmaq var",
+  link: "https://www.dropbox.com/s/e72kcffpvkdi9dm/Ais%20-%20S%C9%99nd%C9%99n%20bir%20m%C3%BCdd%C9%99t%20ayr%C4%B1%20qalmaq.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/r5gmzhcw8sftdfn/images%20%281%29.jfif?dl=1"
+},
+{
+  name: "Bağlanıram",
+  link: "https://www.dropbox.com/s/ixwmne2a04on1me/Ais%20-%20ba%C4%9Flan%C4%B1ram%20.m4a?dl=1",
+  artists: "Ais",
+  image: "https://www.dropbox.com/s/vrnm8sgstzlrvls/images.jfif?dl=1"
+},
+];
+
+var progress = document.querySelector("#progress");
+var song = document.querySelector("#song");
+var playBtn = document.querySelector("#play i");
+var index = 0;
+var img = document.querySelector(".img img");
+
+var title = document.querySelector("#title");
+var thumb = document.querySelector("#thumb");
+var artist = document.querySelector("#musician");
+
+var start = document.querySelector("#start");
+var end = document.querySelector("#end");
+
+song.src = songs[index].link;
+
+title.innerHTML = songs[index].name;
+artist.innerHTML = songs[index].artists;
+thumb.src = songs[index].image;
+
+song.onloadedmetadata = function () {
+  progress.max = song.duration;
+  progress.value = song.currentTime;
+
+  setInterval(() => {
+    var min = Math.floor(song.duration / 60);
+    var sec = Math.floor(song.duration % 60);
+
+    var curMin = Math.floor(song.currentTime / 60);
+    var curSec = Math.floor(song.currentTime % 60);
+
+    if (sec < 10) {
+      sec = "0" + sec;
+    }
+    if (curSec < 10) {
+      curSec = "0" + curSec;
+    }
+    if (min < 10) {
+      min = "0" + min;
+    }
+    if (curMin < 10) {
+      curMin = "0" + curMin;
+    }
+
+    end.innerHTML = min + ":" + sec;
+    start.innerHTML = curMin + ":" + curSec;
+  }, 1000);
+};
+
+function playPause() {
+  if (playBtn.classList.contains("bx-pause")) {
+    song.pause();
+    playBtn.classList.remove("bx-pause");
+    playBtn.classList.add("bx-play");
+    img.classList.remove("play");
+  } else {
+    song.play();
+    playBtn.classList.remove("bx-play");
+    playBtn.classList.add("bx-pause");
+    img.classList.add("play");
+  }
+}
+
+if (song.play()) {
+  setInterval(() => {
+    progress.value = song.currentTime;
+    if (song.currentTime == song.duration) {
+      nextPlay();
+    }
+  }, 1000);
+}
+
+progress.onchange = function () {
+  song.play();
+  song.currentTime = progress.value;
+  playBtn.classList.remove("bx-play");
+  playBtn.classList.add("bx-pause");
+  img.classList.add("play");
+};
+
+function nextPlay() {
+  index = index + 1;
+  if (index > songs.length) {
+    index = 0;
+    song.src = songs[index].link;
+    title.innerHTML = songs[index].name;
+    artist.innerHTML = songs[index].artists;
+    thumb.src = songs[index].image;
+    song.play();
+  } else {
+    song.src = songs[index].link;
+    title.innerHTML = songs[index].name;
+    artist.innerHTML = songs[index].artists;
+    thumb.src = songs[index].image;
+    song.play();
+  }
+}
+
+function prevPlay() {
+  index = index - 1;
+  if (index < 0) {
+    index = songs.length;
+    song.src = songs[index].link;
+    title.innerHTML = songs[index].name;
+    artist.innerHTML = songs[index].artists;
+    thumb.src = songs[index].image;
+    song.play();
+  } else {
+    song.src = songs[index].link;
+    title.innerHTML = songs[index].name;
+    artist.innerHTML = songs[index].artists;
+    thumb.src = songs[index].image;
+    song.play();
+  }
+}
+
+function download() {
+        const currentSong = songs[index];
+        const a = document.createElement('a');
+        a.href = currentSong.link;
+        a.download = currentSong.name + '.mp3';
+        a.click();
+    }
+  </script>
+</body>
+</html>
